@@ -1,0 +1,29 @@
+/* src/App.css */
+
+/* Root container should fill viewport */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Smooth transitions for theme changes or hover states */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Example: optional custom animation you might use */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
