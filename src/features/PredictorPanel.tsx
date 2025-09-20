@@ -1,30 +1,24 @@
 import { useAnalysis } from "../context/AnalysisContext";
 import Card from "../components/Card";
-import Loader from "../components/Loader";
 
 export default function PredictorPanel() {
-  const { analysis, loading, error } = useAnalysis();
+  const { changes, loading, error } = useAnalysis();
+
+  if (loading) return <Card title="Risk & Impact Predictor">Loading...</Card>;
+  if (error) return <Card title="Risk & Impact Predictor">{error}</Card>;
 
   return (
     <Card title="Risk & Impact Predictor">
-      {loading && <Loader />}
-      {error && <p className="text-red-600">{error}</p>}
-      {analysis && (
-        <>
-          <p className="text-gray-700">
-            Change Risk Score:{" "}
-            <span className="text-red-600 font-bold">
-              {analysis.riskScore || "Unknown"}
-            </span>
+      {changes.map((c, i) => (
+        <div key={i} className="mb-4">
+          <p className="font-medium">{c.record.file_path}</p>
+          <p>Risk Score: {c.mistralResponse?.analysisResult?.risk_score ?? "N/A"}</p>
+          <p>
+            Edge Cases:{" "}
+            {(c.mistralResponse?.analysisResult?.edge_cases || []).join(", ")}
           </p>
-          <p className="mt-2">
-            Modules impacted:{" "}
-            <span className="font-medium">
-              {(analysis.impactedModules || []).join(", ")}
-            </span>
-          </p>
-        </>
-      )}
+        </div>
+      ))}
     </Card>
   );
 }

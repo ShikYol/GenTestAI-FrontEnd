@@ -1,26 +1,24 @@
 import { useAnalysis } from "../context/AnalysisContext";
 import Card from "../components/Card";
-import Button from "../components/Button";
 
 export default function RecommenderPanel() {
-  const { analysis } = useAnalysis();
+  const { changes, loading, error } = useAnalysis();
+
+  if (loading) return <Card title="Test Case Recommender">Loading...</Card>;
+  if (error) return <Card title="Test Case Recommender">{error}</Card>;
 
   return (
     <Card title="Test Case Recommender">
-      {analysis?.recommendations?.length ? (
-        <>
-          <ul className="list-disc pl-5 space-y-1 mb-3">
-            {analysis.recommendations.map((rec: string, i: number) => (
-              <li key={i}>{rec}</li>
+      {changes.map((c, i) => (
+        <div key={i} className="mb-4">
+          <p className="font-medium">{c.record.file_path}</p>
+          <ul className="list-disc pl-5">
+            {(c.aiResponse?.testCases || []).map((t: any) => (
+              <li key={t.id}>{t.description}</li>
             ))}
           </ul>
-          <Button variant="primary">Export to TestRail</Button>
-        </>
-      ) : (
-        <p className="text-gray-600 text-sm">
-          No recommendations yet. Run an analysis to see suggestions.
-        </p>
-      )}
+        </div>
+      ))}
     </Card>
   );
 }

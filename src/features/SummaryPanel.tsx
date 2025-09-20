@@ -2,25 +2,25 @@ import { useAnalysis } from "../context/AnalysisContext";
 import Card from "../components/Card";
 
 export default function SummaryPanel() {
-  const { analysis } = useAnalysis();
+  const { changes, loading, error } = useAnalysis();
+
+  if (loading) return <Card title="Analysis Summary">Loading...</Card>;
+  if (error) return <Card title="Analysis Summary">{error}</Card>;
 
   return (
     <Card title="Analysis Summary">
-      {analysis?.summary ? (
-        <p className="mb-2 text-gray-700">{analysis.summary}</p>
-      ) : (
-        <p>No summary available</p>
-      )}
-
-      {analysis?.stats && (
-        <ul className="text-sm text-gray-600 list-disc pl-5">
-          {Object.entries(analysis.stats).map(([key, value], i) => (
-            <li key={i}>
-              {key}: <span className="font-medium">{String(value)}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      {changes.map((c, i) => (
+        <div key={i} className="mb-4">
+          <p className="font-medium">{c.record.file_path}</p>
+          <ul className="list-disc pl-5">
+            {(c.mistralResponse?.analysisResult?.security_issues || []).map(
+              (issue: string, idx: number) => (
+                <li key={idx}>{issue}</li>
+              )
+            )}
+          </ul>
+        </div>
+      ))}
     </Card>
   );
 }

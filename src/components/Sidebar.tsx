@@ -5,7 +5,6 @@ import {
   Search,
   ListChecks,
   Activity,
-  History,
   Settings,
 } from "lucide-react";
 
@@ -15,10 +14,9 @@ type SidebarProps = {
 
 const links = [
   { name: "Dashboard", path: "/dashboard", icon: Home },
-  { name: "Analyzer", path: "/analyzer", icon: Search },
+  { name: "Analyzer", path: "/analyzer", icon: Search }, // optional
   { name: "Recommender", path: "/recommender", icon: ListChecks },
   { name: "Predictor", path: "/predictor", icon: Activity },
-  { name: "History", path: "/history", icon: History },
   { name: "Settings", path: "/settings", icon: Settings },
 ];
 

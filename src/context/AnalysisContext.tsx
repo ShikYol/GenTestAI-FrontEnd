@@ -1,27 +1,27 @@
 // src/context/AnalysisContext.tsx
 import { createContext, useContext, useState } from "react";
-import { fetchAnalysis } from "../api/client";
+import httpClient from "../api/httpClient";
 
 type AnalysisContextType = {
-  analysis: any;
+  changes: any[];
   loading: boolean;
   error: string | null;
-  runAnalysis: (payload?: any) => Promise<void>;
+  fetchChanges: () => Promise<void>;
 };
 
 const AnalysisContext = createContext<AnalysisContextType | null>(null);
 
 export function AnalysisProvider({ children }: { children: React.ReactNode }) {
-  const [analysis, setAnalysis] = useState<any>(null);
+  const [changes, setChanges] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function runAnalysis(payload: any = {}) {
+  async function fetchChanges() {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchAnalysis(payload);
-      setAnalysis(data); // ✅ store the full backend blob
+      const data = await httpClient.get("/changes");
+      setChanges(data.changes || []); // ✅ directly use nested structure
     } catch (err: any) {
       setError(err.message ?? "Failed to fetch analysis");
     } finally {
@@ -30,7 +30,7 @@ export function AnalysisProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AnalysisContext.Provider value={{ analysis, loading, error, runAnalysis }}>
+    <AnalysisContext.Provider value={{ changes, loading, error, fetchChanges }}>
       {children}
     </AnalysisContext.Provider>
   );
