@@ -8,7 +8,7 @@ export default {
           primary: "#0b3faed4",
           accent: "#10b981",    
           secondary: "#1e293b", 
-          muted: "#0b3faed4",     
+          muted: "#8da9e6d4",     
           danger: "#ff0000ff",    
         },
       },
