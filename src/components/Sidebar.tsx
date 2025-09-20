@@ -1,3 +1,4 @@
+// src/components/Sidebar.tsx
 import { NavLink } from "react-router-dom";
 import {
   Home,
@@ -24,11 +25,11 @@ const links = [
 export default function Sidebar({ collapsed = false }: SidebarProps) {
   return (
     <aside
-      className={`h-screen bg-brand-secondary text-white transition-all duration-300 shadow-lg ${
-        collapsed ? "w-16" : "w-60"
+      className={`flex flex-col h-screen bg-brand-secondary text-white shadow-md transition-all duration-300 ${
+        collapsed ? "w-16" : "w-64"
       }`}
     >
-      <ul className="space-y-2 p-4">
+      <ul className="space-y-2 p-4 flex-1">
         {links.map(({ name, path, icon: Icon }) => (
           <li key={name}>
             <NavLink
@@ -37,7 +38,7 @@ export default function Sidebar({ collapsed = false }: SidebarProps) {
                 `flex items-center gap-3 px-3 py-2 rounded-lg font-medium transition ${
                   isActive
                     ? "bg-brand-primary text-white"
-                    : "text-gray-300 hover:bg-brand-primary/30 hover:text-white"
+                    : "text-gray-200 hover:bg-brand-primary/30"
                 }`
               }
             >

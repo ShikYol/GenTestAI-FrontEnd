@@ -1,3 +1,4 @@
+// src/layouts/DashboardLayout.tsx
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -11,19 +12,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className={`${collapsed ? "w-16" : "w-64"} transition-all duration-300`}>
-        <Sidebar collapsed={collapsed} />
-      </div>
+    <div className="flex h-screen w-screen bg-brand-muted">
+      {/* Sidebar (fixed height + background handles gap issue) */}
+      <Sidebar collapsed={collapsed} />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-1 flex-col min-h-screen">
         <Navbar onToggleSidebar={() => setCollapsed(!collapsed)} />
-        <main className="p-6 overflow-auto bg-gradient-to-br from-brand-muted to-white flex-1 rounded-lg shadow-inner">
+        <main className="flex-1 p-6 overflow-auto bg-brand-muted">
           {children}
         </main>
       </div>
     </div>
   );
 }
+

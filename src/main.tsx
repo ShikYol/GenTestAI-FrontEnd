@@ -4,12 +4,15 @@ import App from "./App.tsx";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
 import { UIProvider } from "./context/UIContext";
+import { AnalysisProvider } from "./context/AnalysisContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
       <UIProvider>
-        <App />
+        <AnalysisProvider>
+          <App />
+        </AnalysisProvider>
       </UIProvider>
     </AuthProvider>
   </StrictMode>
